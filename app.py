@@ -16,8 +16,7 @@ class InferlessPythonModel:
         )
 
     @staticmethod
-    def download_audio_file(url, destination):
-        final_destination = f"{destination}/audio.wav"
+    def download_audio_file(url, final_destination):
         response = requests.get(url)
         if response.status_code == 200:
             with open(final_destination, "wb") as f:
