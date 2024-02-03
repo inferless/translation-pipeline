@@ -2,6 +2,6 @@ build:
   system_packages:
     - "libssl-dev"
   python_packages:
-    - "soundfile"
-    - "requests"
+    - "soundfile==0.12.1"
+    - "requests==2.31.0"
     - "transformers"
