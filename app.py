@@ -2,33 +2,54 @@ from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from transformers import pipeline
 import requests
 
+
 class InferlessPythonModel:
-  def initialize(self):
-    self.asr_processor = WhisperProcessor.from_pretrained("openai/whisper-base.en")
-    self.asr_model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-base.en")
+    def initialize(self):
+        self.asr_processor = WhisperProcessor.from_pretrained("openai/whisper-base.en")
+        self.asr_model = WhisperForConditionalGeneration.from_pretrained(
+            "openai/whisper-base.en"
+        )
 
-  @staticmethod
-  def download_audio_file(url, destination):
-    response = requests.get(url)
-    if response.status_code == 200:
-      with open(destination, 'wb') as f:
-        f.write(response.content)
+        self.translation_processor = pipeline(
+            "translation", model="Helsinki-NLP/opus-mt-en-fr"
+        )
 
-  def infer(self, inputs):
-    filename = inputs["filename"]
-    start_time = inputs["start_time"]
-    end_time = inputs["end_time"]
+    @staticmethod
+    def download_audio_file(url, destination):
+        final_destination = f"{destination}/audio.wav"
+        response = requests.get(url)
+        if response.status_code == 200:
+            with open(final_destination, "wb") as f:
+                f.write(response.content)
 
+    def infer(self, inputs):
+        filename = inputs["filename"]
+        start_time = inputs["start_time"]
+        end_time = inputs["end_time"]
+        vad = inputs["vad"]
+        vad_silence = inputs["vad_silence"]
+        model = inputs["model"]
+        target_lang = inputs["target_lang"]
 
+        self.download_audio_file(filename, "/mnt/data/audio.wav")
 
-# load dummy dataset and read audio files
-ds = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
-sample = ds[0]["audio"]
-input_features = processor(sample["array"], sampling_rate=sample["sampling_rate"], return_tensors="pt").input_features 
+        input_features = self.asr_processor(
+            "/mnt/data/audio.wav", sampling_rate=16000, return_tensors="pt"
+        ).input_features
 
-# generate token ids
-predicted_ids = model.generate(input_features)
-# decode token ids to text
-transcription = processor.batch_decode(predicted_ids, skip_special_tokens=False)
+        predicted_ids = self.asr_model.generate(input_features)
 
-transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)
+        transcription = self.asr_processor.batch_decode(
+            predicted_ids, skip_special_tokens=True
+        )[0]
+
+        translation = self.translation_processor(transcription, target_lang)[0][
+            "translation_text"
+        ]
+
+        return {"result_text": translation}
+
+    def finalize(self):
+        self.asr_model = None
+        self.asr_processor = None
+        self.translation_processor = None
