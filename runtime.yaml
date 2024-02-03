@@ -1,0 +1,7 @@
+build:
+  system_packages:
+    - "libssl-dev"
+  python_packages:
+    - "soundfile"
+    - "requests"
+    - "transformers"

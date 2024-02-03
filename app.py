@@ -1,6 +1,7 @@
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from transformers import pipeline
 import requests
+import soundfile as sf
 
 
 class InferlessPythonModel:
@@ -32,9 +33,10 @@ class InferlessPythonModel:
         target_lang = inputs["target_lang"]
 
         self.download_audio_file(filename, "/mnt/data/audio.wav")
+        audio, sampling_rate = sf.read("audio.wav")
 
         input_features = self.asr_processor(
-            "/mnt/data/audio.wav", sampling_rate=16000, return_tensors="pt"
+            audio, sampling_rate=16000, return_tensors="pt"
         ).input_features
 
         predicted_ids = self.asr_model.generate(input_features)
