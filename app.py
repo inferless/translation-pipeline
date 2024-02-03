@@ -32,8 +32,8 @@ class InferlessPythonModel:
         model = inputs["model"]
         target_lang = inputs["target_lang"]
 
-        self.download_audio_file(filename, "/mnt/data/audio.wav")
-        audio, sampling_rate = sf.read("audio.wav")
+        self.download_audio_file(filename, "/var/nfs-mount/translation-pipeline-volume/audio.wav")
+        audio, sampling_rate = sf.read("/var/nfs-mount/translation-pipeline-volume/audio.wav")
 
         input_features = self.asr_processor(
             audio, sampling_rate=16000, return_tensors="pt"
