@@ -23,7 +23,7 @@ To access the custom runtime window in Inferless, simply navigate to the sidebar
 Next, provide a suitable name for your custom runtime and proceed by uploading the `runtime.yaml` file given above. Finally, ensure you save your changes by clicking on the save button.
 
 ### Create a Volume
-Create a volume named `translation-pipeline-volume` using the Volume section in the sidebar in Inferless Dashboard. Make sure to use this volume inside your code to be able to download the audio file.
+Create a volume named `translation-pipeline-volume` using the Volume section in the sidebar in Inferless Dashboard. Make sure to use this volume inside your code to be able to download the audio file in this location. If you decide to keep a different name in the volume, you can find the full path for the volume inside the Volume Dashboard on Inferless.
 
 ### Import the Model in Inferless
 Log in to your inferless account, select the workspace you want the model to be imported into and click the Add Model button.
