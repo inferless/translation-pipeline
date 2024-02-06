@@ -10,7 +10,7 @@ class InferlessPythonModel:
         self.asr_model = WhisperForConditionalGeneration.from_pretrained(
             "openai/whisper-base.en"
         )
-
+        # Save model weighs to this location "/var/nfs-mount/translation-pipeline-volume/" 
         self.translation_processor = pipeline(
             "translation", model="Helsinki-NLP/opus-mt-en-fr"
         )
