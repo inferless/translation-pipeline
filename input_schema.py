@@ -1,15 +1,69 @@
 INPUT_SCHEMA = {
-    "articles": {
-        'datatype': 'STRING',
-        'required': True,
-        'shape': [-1],
-        'example': [
-            "Diagnosis and Management of Central Diabetes Insipidus in Adults",
-            "Central diabetes insipidus (CDI) is a clinical syndrome which results from loss or impaired function of vasopressinergic neurons in the hypothalamus/posterior pituitary, resulting in impaired synthesis and/or secretion of arginine vasopressin (AVP). [...]",
-            "Adipsic diabetes insipidus",
-            "Adipsic diabetes insipidus (ADI) is a rare but devastating disorder of water balance with significant associated morbidity and mortality. Most patients develop the disease as a result of hypothalamic destruction from a variety of underlying etiologies. [...]",
-            "Nephrogenic diabetes insipidus: a comprehensive overview",
-            "Nephrogenic diabetes insipidus (NDI) is characterized by the inability to concentrate urine that results in polyuria and polydipsia, despite having normal or elevated plasma concentrations of arginine vasopressin (AVP). [...]"
+  "filename":
+    {
+      "datatype": "BYTES",
+      "shape": [ 1 ],
+      "example": [ "https://inferless-public.s3.amazonaws.com/ss_gt_1.wav"  ]
+    } , 
+"start_time" : 
+    {
+
+      "datatype": "BYTES",
+      "shape": [
+        1
+      ],
+      "example": [
+        "0:15"
+      ]
+    },
+"end_time" : 
+    {
+      "datatype": "BYTES",
+      "shape": [
+        1
+      ],
+      "example": [
+        "0:30"
+      ]
+    },
+"vad" : 
+    {
+      "datatype": "BYTES",
+      "shape": [
+        1
+      ],
+      "example": [
+        "vad-algorithm"
+      ]
+    },
+"vad_silence" : 
+    {
+      "datatype": "FP32",
+      "shape": [
+        1
+      ],
+      "example": [
+        0.212
+      ]
+    },
+"model" : 
+    {
+      "datatype": "BYTES",
+      "shape": [
+        1
+      ],
+      "example": [
+        "model-name"
+      ]
+    },
+"target_lang" :
+    {
+      "datatype": "BYTES",
+      "shape": [
+        1
+      ],
+      "example": [
+        "fr"
       ]
     }
 }
