@@ -2,10 +2,11 @@ from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from transformers import pipeline
 import requests
 import soundfile as sf
-
+import os
 
 class InferlessPythonModel:
     def initialize(self):
+        self.NFS_VOLUME = os.getenv('NFS_VOLUME')
         self.asr_processor = WhisperProcessor.from_pretrained("openai/whisper-base.en")
         self.asr_model = WhisperForConditionalGeneration.from_pretrained(
             "openai/whisper-base.en"
@@ -31,8 +32,8 @@ class InferlessPythonModel:
         model = inputs["model"]
         target_lang = inputs["target_lang"]
 
-        self.download_audio_file(filename, "/var/nfs-mount/translation-pipeline-volume/audio.wav")
-        audio, sampling_rate = sf.read("/var/nfs-mount/translation-pipeline-volume/audio.wav")
+        self.download_audio_file(filename, f"{self.NFS_VOLUME}/audio.wav")
+        audio, sampling_rate = sf.read(f"{self.NFS_VOLUME}/audio.wav")
 
         input_features = self.asr_processor(
             audio, sampling_rate=16000, return_tensors="pt"
