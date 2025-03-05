@@ -1,12 +1,15 @@
+import os
+os.environ["HF_HUB_ENABLE_HF_TRANSFER"]='1'
+from huggingface_hub import snapshot_download
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from transformers import pipeline
 import requests
 import soundfile as sf
-import os
 
 class InferlessPythonModel:
     def initialize(self):
         self.NFS_VOLUME = os.getenv('NFS_VOLUME')
+        snapshot_download(repo_id="openai/whisper-base.en",allow_patterns=["*.safetensors"])
         self.asr_processor = WhisperProcessor.from_pretrained("openai/whisper-base.en")
         self.asr_model = WhisperForConditionalGeneration.from_pretrained(
             "openai/whisper-base.en"
