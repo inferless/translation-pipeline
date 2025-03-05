@@ -6,3 +6,5 @@ build:
     - "transformers"
     - "torch==2.1.1"
     - "sentencepiece==0.1.99"
+    - "hf-transfer==0.1.9"
+    - "huggingface-hub==0.29.1"
